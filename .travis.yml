@@ -1,0 +1,32 @@
+language: node_js
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - curl -L https://github.com/docker/compose/releases/download/1.4.2/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  - sudo apt-get update -q
+  - sudo apt-get install -q virtualbox --fix-missing
+  - sudo wget -nv https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+  - sudo dpkg -i vagrant_1.8.1_x86_64.deb
+
+script:
+  - docker-compose -f docker-compose.yml pull
+  - docker-compose -f docker-compose.yml rm -f
+  - docker-compose -f docker-compose.yml up -d
+  - sleep 30
+  - curl -vv "http://localhost:8080/
+  - docker-compose -f docker-compose.yml down
+  - docker-compose -f docker-compose.yml rm -f
+  - docker rm $(docker ps -a -q)
+  - docker rmi $(docker images -q)
+  - vagrant up
+  - sleep 30
+  - curl -vv "http://localhost:8080/
