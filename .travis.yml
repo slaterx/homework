@@ -21,6 +21,7 @@ install:
   - sudo wget -nv https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
   - sudo dpkg -i vagrant_1.8.1_x86_64.deb
   - sudo vagrant plugin install vagrant-docker-compose
+  - sudo chown -R travis:travis /home/travis
 
 script:
   - docker-compose -f docker-compose.yml pull
@@ -28,10 +29,6 @@ script:
   - docker-compose -f docker-compose.yml up -d
   - sleep 30
   - curl -vv http://localhost:80/
-  - docker-compose -f docker-compose.yml down
-  - docker-compose -f docker-compose.yml rm -f
-  - docker rm $(docker ps -a -q -f)
-  - docker rmi $(docker images -q)
   - vagrant up
   - sleep 30
   - curl -vv http://localhost:8080/
