@@ -1,0 +1,13 @@
+# Homework hello-app
+# Author: Gleidson Nascimento
+# This docker compose file should spawn:  
+# 1) a hello-app application and its database (running in a passenger-ruby.2.2)
+
+hello_app:
+  build: .
+  ports:
+    - "80:80"
+#  links:
+#    - postgres
+  env_file:
+    configuration/.app_env

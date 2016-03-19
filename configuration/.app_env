@@ -1,0 +1,3 @@
+DATABASE_URL=postgres://username:password@localhost/hello_app
+RAILS_ENV=production
+SECRET_KEY_BASE=048ab4d2b3e57fcb4f31a6113809a6120f0f64b675571eaa7447c4ed30cc74f70b34aab54016dcd0b0e80f753e7688378ad522a83cc5a587133f6d67c2b62f6a

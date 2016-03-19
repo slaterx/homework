@@ -1,0 +1,3 @@
+POSTGRES_DB=hello_app
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
