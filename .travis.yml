@@ -12,8 +12,10 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
+  - sudo apt-add-repository "deb http://download.virtualbox.org/virtualbox/debian vivid contrib"
+  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
   - sudo apt-get update -q
-  - sudo apt-get install -q virtualbox --fix-missing
+  - sudo apt-get install -q virtualbox-5.0 --fix-missing
   - sudo wget -nv https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
   - sudo dpkg -i vagrant_1.8.1_x86_64.deb
 
