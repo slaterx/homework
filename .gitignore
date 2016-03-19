@@ -34,3 +34,27 @@ build/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
+
+# Binaries
+bin/
+bin-debug/
+bin-release/
+
+# Other files and folders
+.settings/
+
+# My Ignores
+\.DS_Store
+\.classpath
+\.project
+\.settings
+\.metadata/
+Servers/
+target/
+.idea
+.vagrant
+*.txt
+*.gz
+*.jar
+*.zip
+*.iso
