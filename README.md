@@ -7,6 +7,20 @@ Hello_app is a ruby application deployed to a docker container with phusion pass
 
 From a security perspective, the puppet scripts are sanitizing the VM in the similar way we would sanitize a production environment, making the development/testing machines closer to a production one. 
 
+Openshift was used for the sake of testing routing and usage outside of a developer's realm.
+
+## Instructions
+ - local machine via docker-compose (https://docs.docker.com/compose/install/)
+ 	- docker-compose up
+
+ - local machine via vagrant (which will run puppet + docker)
+ 	- vagrant up
+
+ - PaaS deployment using Openshift (You don't need permission to run privileged containers)
+ 	- oc new-project homework-dev
+ 	- oc new-app https://github.com/slaterx/homework --name=hello-app --strategy=docker -e TZ=Pacific/Auckland
+ 	- oc expose service hello-app --hostname=hello-app.example.com
+
 ## Improvements
 * **DB**: The docker composer is ready to host another container with postgres and bootstrap the DB, but the application is using so far a local one. We need to move the migration step from Dockerfile to the my_init.d, so there will be proper networking in place for the external connection to happen.
 
