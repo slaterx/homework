@@ -13,11 +13,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
-  - sudo apt-add-repository "deb http://download.virtualbox.org/virtualbox/debian trusty contrib"
-  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
   - sudo apt-get update -q
-  - sudo apt-get -y install -q linux-headers-3.19.0-30-generic --fix-missing
-  - sudo apt-get -y install -q virtualbox-5.0 --fix-missing
   - sudo wget -nv https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
   - sudo dpkg -i vagrant_1.8.1_x86_64.deb
   - sudo vagrant plugin install vagrant-docker-compose
@@ -29,6 +25,3 @@ script:
   - docker-compose -f docker-compose.yml up -d
   - sleep 30
   - curl -vv http://localhost:80/
-  - vagrant up
-  - sleep 30
-  - curl -vv http://localhost:8080/

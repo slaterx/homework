@@ -2,7 +2,7 @@
 set -e
 
 # Simple command to startup postgres
-exec sudo /etc/init.d/postgresql start
+exec su postgres -c "/etc/init.d/postgresql start"
 
 
 # End 
