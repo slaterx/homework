@@ -7,6 +7,8 @@ Hello_app is a ruby application deployed to a docker container with phusion pass
 
 From a security perspective, the puppet scripts are sanitizing the VM in the similar way we would sanitize a production environment, making the development/testing machines closer to a production one. 
 
+From a testing perspective, TravisCI runs periodically a test on each commit.
+
 Openshift was used for the sake of testing routing and usage outside of a developer's realm.
 
 ## Instructions
@@ -41,7 +43,9 @@ Openshift was used for the sake of testing routing and usage outside of a develo
 
  - **Security controls**: The application and database are pretty standard, yet on a production environment it is important to have bits and pieces in place to avoid vulnerabilities or to meet a specific security control. The easiest way to overcome this was to use puppet as a configuration managament tool to declare how do we want the environment to look like. The best way to address this would be to have puppet rules applied both at the container level and at the application/database level.
 
- - **Developer workflow**: A good scenario for a deployment workflow is when both the developer and the sysadmin need to do minimal intervention on the deployment process. This means that the environment is source-controlled (just like the application source code) and the strategy is repeatable on several different platforms. The easiest way to overcome this was to have both a vagrant and a docker-compose deployment strategy (which allowed different ways to develop the environment with the same result) and to deploy into both openshift (Opensource PaaS) and AWS (Enterprise PaaS) to test production-like environments. 
+ - **Testing**: There was a need for continuous testing. The easiest way to overcome this was to setup TravisCI on this git repository to run on each commit. The best way to address this would be to have TravisCI testing each commit from each environment, from development to production.
+
+ - **Developer workflow**: A good scenario for a deployment workflow is when both the developer and the sysadmin need to do minimal intervention on the deployment process. This means that the environment is source-controlled (just like the application source code) and the strategy is repeatable on several different platforms. The easiest way to overcome this was to have both a vagrant and a docker-compose deployment strategy (which allowed different ways to develop the environment with the same result) and to deploy into both openshift (Opensource PaaS) and AWS (Enterprise PaaS) to test production-like environments. A better way would be to do the same as before but having different branches for each environment, from development to production.
 
 ## Improvements
 * **DB**: The docker composer is ready to host another container with postgres and bootstrap the DB, but the application is using so far a local one. We need to move the migration step from Dockerfile to the my_init.d, so there will be proper networking in place for the external connection to happen.
