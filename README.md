@@ -1,7 +1,7 @@
 # homework
 A ruby hello_app build/deployment configuration exercise.
 
-Uses docker/docker composer directly if you want or vagrant + ubuntu + puppet if you want to keep the changes away from your desktop.
+Uses docker/docker composer directly if you want or vagrant + ubuntu + puppet if you want to keep the changes away from your desktop. Just clone it to your computer and select one of the deployment options.
 
 Hello_app is a ruby application deployed to a docker container with phusion passendger, nginx and postgres. During the container startup, the DB is provisioned and the application is downloaded from Git. With this strategy, it is possible to have a fresh version of the application by just starting a new version of the container, which makes the environment ready for development and testing. 
 
@@ -10,16 +10,24 @@ From a security perspective, the puppet scripts are sanitizing the VM in the sim
 Openshift was used for the sake of testing routing and usage outside of a developer's realm.
 
 ## Instructions
- - local machine via docker-compose (https://docs.docker.com/compose/install/)
+ - Local machine via docker-compose (Linux) (https://docs.docker.com/compose/install/)
  	- docker-compose up
 
- - local machine via vagrant (which will run puppet + docker)
+ - Local machine via vagrant (OSX, Windows) (which will run puppet + docker)
  	- vagrant up
 
- - PaaS deployment using Openshift (You don't need permission to run privileged containers)
- 	- oc new-project homework-dev
+ - PaaS deployment of a dual node using Openshift (You don't need permission to run privileged containers)
+ 	- oc new-project homework-staging
  	- oc new-app https://github.com/slaterx/homework --name=hello-app --strategy=docker -e TZ=Pacific/Auckland
- 	- oc expose service hello-app --hostname=hello-app.example.com
+ 	- oc expose service hello-app --hostname=hello-app-stag.example.com
+ 	- (If you want high availability on the app) oc scale dc hello-app --replicas=2
+
+ - PaaS deployment of a dual node using AWS Elastic Beanstalk
+ 	- eb init hello-app
+ 	- eb create hello-app-staging --scale 2
+
+## Problems found (and how they were mitigated)
+ - **Lack of flexibility on the database configuration**: The application uses hardcoded database names. The easiest way to overcome this was to open config/databases.rb to get the DB names and add them inside the deployment strategy. The best way to address this would be to change the source to accept variables and pass then as part of our deployment, in the same way we are passing the username and password.
 
 ## Improvements
 * **DB**: The docker composer is ready to host another container with postgres and bootstrap the DB, but the application is using so far a local one. We need to move the migration step from Dockerfile to the my_init.d, so there will be proper networking in place for the external connection to happen.
